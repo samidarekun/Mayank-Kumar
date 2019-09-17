@@ -1,0 +1,54 @@
+getwd()
+#read txt
+library(readr)
+aberto <- read_delim("aberto0508.txt", "\t", 
+                     escape_double = FALSE, trim_ws = TRUE)
+View(aberto)
+
+#read excel
+library(readxl)
+a<-read_excel("aberto.xlsx")
+naam<-names(a)
+
+#data frame
+a2<-as.data.frame(aberto)
+View(a2)
+names(a2)<-"v"
+a3<-a2[-(1:16),]
+View(a3)
+a3<-as.data.frame(a3)
+
+#data conversion
+for(i in 1:length(a3)){
+  as.character(a3[i,1])
+}
+
+#new dataset
+j<-1;k<-1
+d<-data.frame()
+e<-data.frame()
+
+  for(i in 3:7221){
+    x<-gsub(".*(\\d{1,2}/\\d{1,2}/\\d{4}).*", "\\1", a3[i,1])
+    if(!is.na(as.Date(as.character(x),format="%d/%m/%Y")))
+       {   d[j,1]<-a3[i,1];
+    j<-j+1} 
+    else{
+      e[k,1]<-a3[i,1];
+      k<-k+1
+    }
+  }
+
+View(a3)
+View(d)
+View(e)
+
+
+    
+#scsacas
+
+f<-gsub(".*(\\d{1,2}/\\d{1,2}/\\d{4}).*", "\\1", e[9,1])
+!all(is.na(as.Date(as.character(f),format="%d/%m/%Y")))
+
+
+d[6,1]
